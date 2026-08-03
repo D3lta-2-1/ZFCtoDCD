@@ -71,7 +71,7 @@ Cet objet est noté $cal(P)(e)$.
 )
 Cet objet est noté $union.big_(X in E) X$ 
 
-#proof("Unicité de la paire",
+#proof("Union de deux ensembles",
   $forall A, forall B, exists !E, forall x, x in E <=> x in A or x in B$,
   [
     Soit A, B. Posons $U = {A, B}$ puis $E  = union.big_(X in U) X$.
@@ -87,31 +87,37 @@ Cet objet est noté $union.big_(X in E) X$
 Cet objet est noté $A union B$
 On définit alors le successeur de n par l'operation suivante: $S(n) = n union {n}$
 //todo  : Unicité pour schéma d'axiome de compréhension et notation 
-
+//todo  : produit cartésien 
 = Construction de $bb(N)$
 #let Pinf = $P_(infinity)$
 On définit $Pinf$ par :
 $ forall I, Pinf(I) <=>  emptyset in I and forall n, n in I => S(n) in I $\
 
-$exists! N, (forall I, Pinf(I) => N subset I) and Pinf(N)$
-// Preuve 
+#proof("Existence de $NN$",
+  $exists! N, (forall I, Pinf(I) => N subset I) and Pinf(N)$,
+  [
   Posons I tel que $Pinf(I)$, il nous est donné par l'axiome de l'infini.
-Posons $N  = {n in I | forall J, Pinf(J) => n in J}$. Par construction, $forall J, Pinf(J) => N subset J$
-Soit N, M vérifiants :\
-$ (forall I, Pinf(I) => N subset I) and Pinf(N) $\
-$ (forall I, Pinf(I) => M subset I) and Pinf(M) $\
-On a alors : $N subset M and M subset N$, d'où $M = N$. On a ainsi l'unicité.
-// Preuve
+  Posons $N  = {n in I | forall J, Pinf(J) => n in J}$. Par construction, $forall J, Pinf(J) => N subset J$
+  Soit N, M vérifiants :\
+  $ (forall I, Pinf(I) => N subset I) and Pinf(N) $\
+  $ (forall I, Pinf(I) => M subset I) and Pinf(M) $\
+  On a alors : $N subset M and M subset N$, d'où $M = N$, d'où l'unicité.
+  ]
+  
+)
 Cet objet est noté $bb(N)$
 
 
-Récurrence :
-Soit $P$ une propriété. 
-$P(emptyset)  and (forall n in bb(N), P(n) => P(S(n)) => forall n in bb(N), P(n)$
-//Preuve
-Supposons $P(emptyset)  and (forall n in bb(N), P(n) => P(S(n)))$. Posons :
-$ H = {n in bb(N) | P(n)} $. $P(emptyset)$ et $emptyset in N$ assurent que emptyset in H. Soit $n in H$. $P(n)$ et $n in bb(N)$. Ainsi, on a $P(S(n))$ et $S(n) in bb(N)$ d'où $S(n) in H$.\
-On  a ainsi montré que $Pinf(H)$. Par définitions : $NN subset H et H subset  
-//preuve
 
+#proof("Récurrence",
+  [
+    Soit $P$ une propriété. $P(emptyset)  and (forall n in bb(N), P(n) => P(S(n)) => forall n in bb(N), P(n)$
+  ], 
+  [
+    Supposons $P(emptyset)  and (forall n in bb(N), P(n) => P(S(n)))$. Posons :
+    $ H = {n in bb(N) | P(n)} $ $P(emptyset)$ et $emptyset in N$ assurent que $emptyset$ in H. Soit $n in H$. $P(n)$ et $n in bb(N)$. Ainsi, on a $P(S(n))$ et $S(n) in bb(N)$ d'où $S(n) in H$.\
+    On  a ainsi montré que $Pinf(H)$. Par définitions : $NN subset H and H subset NN$. Ainsi, $H = NN$ d'où la propriété.
+  ]
+  
+)
 
