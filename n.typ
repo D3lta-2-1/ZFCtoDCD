@@ -27,7 +27,7 @@
 
 = Résultats d'unicités et opérations élémentaires.
 
-Rour pouvoir nommer les objets crées à l'aide de ces axiomes, il est nécessaire d'établir un résultat d'unicité. La plupart de ces preuves se rapportent à utiliser la définition pour faire apparaître l'axiome d'extensionnalité.
+Pour pouvoir nommer les objets crées à l'aide de ces axiomes, il est nécessaire d'établir un résultat d'unicité. La plupart de ces preuves se rapportent à utiliser la définition pour faire apparaître l'axiome d'extensionnalité.
 
 
 #proof("Unicité de l'ensemble vide",
@@ -37,7 +37,7 @@ Rour pouvoir nommer les objets crées à l'aide de ces axiomes, il est nécessai
     Posons $X$ et $Y$ deux ensembles vide\
     Alors $forall z, z in.not Y$ et $z in.not X$ \
     donc $forall z, (z in Y <=> z in X) $\
-    Par l'axiome d'extensionalité, $Y = X$, 
+    Par l'axiome d'extensionnalité, $Y = X$, 
   ] 
 )
 
@@ -84,10 +84,10 @@ On note ${a, b}$ cet objet. Et, ${a, a}$ est noté ${a}$.
     Soit X
     $ X in P &<=> X subset E\
           &<=> X in Q $
-    Par l'axiome d'extensionabilité, P = Q
+    Par l'axiome d'extensionnalité, P = Q
   ]
 )
-L'ensemble des Parties d'un ensemble est unique, cet objet se note $cal(P)(e)$.
+L'ensemble des parties d'un ensemble $E$ est unique, cet objet se note $cal(P)(E)$.
 
 
 #proof("Uncité de la réunion",
@@ -120,7 +120,7 @@ Cet objet est noté: $ union.big_(X in E) X $
     Réciproquement, soit $x in A$. Comme $A in U$, $exists X in U, x in X$. Ainsi, $x in E$. De même pour B.\
     Ainsi : $forall x, x in A or x in B => x in E$.\
     \
-    Soit U, V tel que: 
+    Soient U, V tels que: 
     $ cases(
       forall x\, x in U <=> x in A or x in B,
       forall x\, x in V <=> x in A or x in B,
@@ -130,14 +130,14 @@ Cet objet est noté: $ union.big_(X in E) X $
 
     $ x in U &<=> x in A or x in B\
           &<=> x in V $
-    Par l'axiome d'extensionabilité, P = Q
+    Par l'axiome d'extensionnalité, U = V
   ]
 )
 
 Cet objet est noté $A union B$.\
 Par définition, l'union "commute", c'est-à-dire: $A union B = B union A$\
 \
-On définit alors le successeur de n , l'operation utilisé dans l'axiome de l'infini, par l'operation suivante: $S(n) = n union {n}$
+On définit alors le successeur de n, l'operation utilisé dans l'axiome de l'infini, par l'operation suivante: $S(n) = n union {n}$
 
 #proof("unicité d'un ensemble généré à l'aide d'un schéma de compréhension",
   $forall E, exists !A, forall x, x in A <=> x in E and P(x)$,
@@ -149,7 +149,7 @@ On définit alors le successeur de n , l'operation utilisé dans l'axiome de l'i
       forall x\, x in B <=> x in E and P(x),
       )
     $
-    Leur existence est assuré par l'axiome de réunion. \ 
+    Leur existence est assurée par le schéma d'axiome de compréhension. \ 
     Soit $x$
     $
       x in A &<=> x in E and P(x)
@@ -192,7 +192,7 @@ Une relation d'équivalence est une relation réflexive, symétrique et transiti
 Une relation d'ordre $<=$ est dite totale sur un ensemble E lorsque :\
   $ forall a in E, forall b in E, a <= b or b <= a $ 
 Un ordre sur E est un bon ordre lorque : \
-  $ forall F, F subset E => exists m in F, forall x in F, m <= x $
+  $ forall F, (F subset E and F != emptyset) => exists m in F, forall x in F, m <= x $
   La relation R sur E définie par : $forall a in E, forall b in E, a R b <=> a subset b$ est notée $subset$.\
   De même la relation R définie par : $forall a in E, forall b in E, a R b <=> a = b$ est notée $=$.\
 
@@ -250,7 +250,7 @@ Supposons $P(emptyset)  and (forall n in bb(N), P(n) => P(S(n)))$. Posons :
       //todo : récurrence sur b.
     ]
 )
- #proof(
+#proof(
     "Réciproque partielle",
     $forall a in NN, forall b in NN, a subset b => (a in b or a = b)$,
     [
@@ -270,10 +270,9 @@ Supposons $P(emptyset)  and (forall n in bb(N), P(n) => P(S(n)))$. Posons :
     ]
  )
 
- Notons $<=$, relation sur N définie par : $ forall a in NN, forall b in NN, a<=b <=> a subset b $.
+ Notons $<=$, relation sur N définie par : $ forall a in NN, forall b in NN, a<=b <=> a subset b $
 On a déjà montré que $<=$ était une relation d'ordre.
-#proof(
-  [Sur $NN$, $<=$ est une relation d'ordre totale.],
+#proof([Sur $NN$, $<=$ est une relation d'ordre totale.],
   [$forall a in NN, forall b in NN, a <=b or b <= a$],
   [
     Soit $a in NN$.
@@ -292,4 +291,85 @@ On a déjà montré que $<=$ était une relation d'ordre.
   ]
 )
 
+#proof("Caractérisation de <",
+ $forall a in NN, forall b in NN, a < b <=> a + 1 <= b$, 
+ [
+  //todo : preuve 
+
+ ])
+
+
 //todo : construction des suites définies par récurrence.
+= Addition \
+
+Soit $a in NN$. Posons :
+$ f_a : cases(NN -> NN, b |-> f_(a)(b) ) $
+Définie par :
+$ cases(f_(a)(0) = a, forall b in NN\, f_(a)(S(b)) = S(f_(a)(b))) $.
+
+Puis :
+$ + : cases(NN times NN -> NN, (a\, b) |-> f_(a)(b) ) $
+On notera : $+(a,b) = a + b$.
+
+#proof("Propriétés fondamentales de l'addition",
+  $(forall a in NN, a + 0 = a) and (forall a in NN, forall b in NN, S(a + b) = a + S(b))$,
+  [
+    Soit $a in NN$. $a + 0 = f_a(0) = a$\
+    Soit $a in NN, b in NN$. $S(a + b) = S(f_(a)(b)) = f_(a)(S(b)) = a + S(b)$
+  ]
+)
+
+#proof(
+  "Associativité et commutativité de l'addition",[
+    $forall a in NN, forall b in NN, forall c in NN, (a + b) + c = a + (b + c)$
+    $forall a in NN, forall b in NN, a + b = b + a$
+  ], [
+    Récurrences //todo
+  ]
+)
+On notera, pour a, b et c des entiers naturels $a + b + c = ( a + b ) + c = a + ( b+ c )$.\
+On remarque que : $ forall n in NN, S(n) = S(n + 0) = n + S(0) = n + 1 $
+Où $1 = S(0)$. On utilisera cette notation pour les récurrences notamment.
+
+#proof(
+  "Compatibilité de l'ordre avec l'addition",
+  $forall a in NN, forall b in NN, forall c in NN, a <= b => a + c <= b + c$,
+  [
+    Soit $a, b$ des entiers naturels. O procède par récurrence sur $c$.\
+    $ a <= b => a + 0 <= b + 0 $
+    Soit $c in NN$. Supposons que $a <= b => a + c <= b +c$.\
+    #h(1em) Supposons que $a <= b$.\
+    #h(2em) $a  + c <= b + c$\  
+    #h(2em) Soit $x in S(a+c)$. \
+    #h(3em) Si $x in a + c$ alors $x in b + c$ donc $x in S(b+c)$. 
+    #h(3em) Sinon $x = a + c = b + c in S(b +c)$
+    #h(2em) $S(a + c) <= S(b + c)$  
+  ]
+)
+ #proof("Caractérisation de la relation d'ordre", 
+  $forall a in NN, forall b in NN, a <= b <=> exists c, a + c = b$,
+  [
+    //todo : par l'absurde : récurrence sur c pour a + c < b
+  ]
+ )
+
+
+
+#proof("Simplification de l'addition", 
+  $forall a in NN, forall b in NN, forall c in NN, a + c = b +c => a = b$,
+  [
+    Soit $a, b, c in NN$. On raisonne par contraposée.\
+    Supposons $a != b$. Ainsi, $a < b$ ou $b < a$.
+    Par symétrie supposons que $(a < b)$. Ainsi, $(a + 1 <= b)$ donc $(a + c + 1 <= b + c)$ donc $(a + c < b + c)$ 
+    donc $(a + c != b +c)$. 
+  ]
+)
+
+
+#proof("L'inclusion est une relation de bon ordre sur les entiers naturels.",
+$forall F, (F subset N and F != emptyset) => exists m in F, forall x in F, m <= x$
+,
+[
+  //todo : récurrence.
+]
+)
