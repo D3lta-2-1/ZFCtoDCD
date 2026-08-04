@@ -16,10 +16,8 @@
   linebreak()
 }
 
-
-
 *Axiome:*
-- axiome d'extensionnalité : $forall A, forall B, A = B <=> A subset B and B subset A$
+- axiome d'extensionnalité : $forall A, forall B, A = B <=> A subset B and B subset A <=> forall x, [x in A <=> x in B] $
 - axiome de la paire : $forall a, forall b, exists E, forall x, x in E <=> x = a or x = b$
 - axiome de réunion : $forall E, exists U, forall x, x in U <=> exists X in E, x in X$
 - axiome des parties : $forall E, exists P, forall X, X in P <=> X subset E$
@@ -27,32 +25,46 @@
 - axiome de compréhension (schéma) : $forall E, exists A, forall x, x in A <=> x in E and P(x)$
 - axiome de l'ensemble de vide : $exists E, forall x, x in.not E$
 
-= Résultats d'unicité
+= Résultats d'unicités et opérations élémentaires.
 
-Rour pouvoir nommer les objets crées à l'aide de ces axiomes, il est nécessaire d'établir un résultat d'unicité. 
+Rour pouvoir nommer les objets crées à l'aide de ces axiomes, il est nécessaire d'établir un résultat d'unicité. La plupart de ces preuves se rapportent à utiliser la définition pour faire apparaître l'axiome d'extensionnalité.
 
 
 #proof("Unicité de l'ensemble vide",
   $exists! E, forall x, x in.not E$,
   [
-    Posons $X$ un ensemble vide\
-    Soit $Y slash forall y in Y, z in.not Y$ \
-    Alors $forall y in Y, (y in Y <=> y in X) $\
-    Par l'axiome d'exentsionalité, $Y = X$, 
+    L'existence d'un tel ensemble est assuré par l'axime de l'ensemble vide\
+    Posons $X$ et $Y$ deux ensembles vide\
+    Alors $forall z, z in.not Y$ et $z in.not X$ \
+    donc $forall z, (z in Y <=> z in X) $\
+    Par l'axiome d'extensionalité, $Y = X$, 
   ] 
 )
 
 On note $emptyset$ l'ensemble vide.
 
-//todo : l'ensemble vide est inclus dans tout autre ensemble.
+#proof("l'ensemble vide est inclus dans tout autre ensemble.",
+  $forall E, forall x in emptyset, x in E $,
+  [
+
+    Soit $E$ un ensemble.\
+    Raisonnons par contraposée:\
+    $x in.not E => x in.not emptyset$ vrai car $forall x, x in.not emptyset$ \
+    D'où $forall E, emptyset subset E$
+  ] 
+)
 
 #proof("Unicité de la paire",
   $forall a, forall b, exists! E, forall x, x in E <=> x = a or x = b$,
   [
-    Soit  a, b. L'axiome de la paire donne l'existence d'un tel E, il reste à démontrer l'unicité. Soit E, F tels que :
-    $forall x, x in E <=> x = a or x = b$\
-    $forall x, x in F <=> x = a or x = b$\
-    Soit $x in E$, $x = a or x = b$ donc $x in F$. Ainsi : $E subset F$. De même $F subset E$. Finalement, E = F, d'où l'unicité.
+    Soit  a, b. L'axiome de la paire donne l'existence d'un tel E, il reste à démontrer l'unicité.\
+     Soit E, F tels que : $ cases(
+      forall x\, x in E <=> x = a or x = b,
+      forall x\, x in F <=> x = a or x = b
+      ) $\
+    Soit $x in E$, $x = a or x = b$\ 
+    donc $x in F$. 
+    Ainsi : $E subset F$. De même $F subset E$. Finalement, E = F, d'où l'unicité.
   ]
 )
 
@@ -61,34 +73,108 @@ On note ${a, b}$ cet objet. Et, ${a, a}$ est noté ${a}$.
 #proof("Unicité de l'ensemble des parties",
   $forall E, exists! P, forall X, X in P <=> X subset E$,
   [
-    On fait de même pour avoir l'unicité, l'existence étant donnée par l'axiome des parties.
+    Soit E un ensemble.
+    Soit P, Q deux ensembles tels que: 
+    $ cases(
+      forall X\, X in P <=> X subset E,
+      forall X\, X in Q <=> X subset E,
+      )
+    $
+    Leur existence est assuré par l'axiome des parties. \ 
+    Soit X
+    $ X in P &<=> X subset E\
+          &<=> X in Q $
+    Par l'axiome d'extensionabilité, P = Q
   ]
 )
-Cet objet est noté $cal(P)(e)$.
+L'ensemble des Parties d'un ensemble est unique, cet objet se note $cal(P)(e)$.
 
 
 #proof("Uncité de la réunion",
   $forall E, exists! U, forall x, x in U <=> exists X in E, x in X$,
-  [Même idée.]
+  [
+    Soit U, V deux ensembles tel que:
+    $ cases(
+      forall x\, x in U <=> exists X in E\, x in X,
+      forall x\, x in V <=> exists X in E\, x in X,
+      )
+    $
+    Leur existence est assuré par l'axiome de réunion. \ 
+    Soit $x$
+    $
+      x in U &<=> exists X in E\, x in X\
+          &<=> X in V
+    $
+  ]
 )
-Cet objet est noté $union.big_(X in E) X$ 
+Cet objet est noté: $ union.big_(X in E) X $ 
 
 #proof("Union de deux ensembles",
   $forall A, forall B, exists !E, forall x, x in E <=> x in A or x in B$,
   [
-    Soit A, B. Posons $U = {A, B}$ puis $E  = union.big_(X in U) X$.
+    Soit A, B.\
+    Posons $U = $ puis $E  = union.big_(X in {A, B}) X$.\
     Soit $x in E$. Par définition : $exists X in U, x in X$. Fixons un tel $X$.\
     Comme $x in U$ : $X  = A or X = B$ donc $x in A or x in B$.\ 
     Ainsi : $forall x, x in E => x in A or x in B$.\
     Réciproquement, soit $x in A$. Comme $A in U$, $exists X in U, x in X$. Ainsi, $x in E$. De même pour B.\
-    Ainsi : $forall x, x in A or x in B => x in E$. D'où finalement l'existence. L'unicité se montre de la même manière que précédemmment.
+    Ainsi : $forall x, x in A or x in B => x in E$.\
+    \
+    Soit U, V tel que: 
+    $ cases(
+      forall x\, x in U <=> x in A or x in B,
+      forall x\, x in V <=> x in A or x in B,
+      )
+    $
+    Soit x,
+
+    $ x in U &<=> x in A or x in B\
+          &<=> x in V $
+    Par l'axiome d'extensionabilité, P = Q
   ]
-  
 )
 
-Cet objet est noté $A union B$
-On définit alors le successeur de n par l'operation suivante: $S(n) = n union {n}$
-//todo  : Unicité pour schéma d'axiome de compréhension et notation 
+Cet objet est noté $A union B$.\
+Par définition, l'union "commute", c'est-à-dire: $A union B = B union A$\
+\
+On définit alors le successeur de n , l'operation utilisé dans l'axiome de l'infini, par l'operation suivante: $S(n) = n union {n}$
+
+#proof("unicité d'un ensemble généré à l'aide d'un schéma de compréhension",
+  $forall E, exists !A, forall x, x in A <=> x in E and P(x)$,
+  [
+    Soit P(x) un propriété, c'est-à-dire une formule propositionnelle de la logique classique.\
+    Soit A, B deux ensembles tel que:
+    $ cases(
+      forall x\, x in A <=> x in E and P(x),
+      forall x\, x in B <=> x in E and P(x),
+      )
+    $
+    Leur existence est assuré par l'axiome de réunion. \ 
+    Soit $x$
+    $
+      x in A &<=> x in E and P(x)
+      &<=> X in B
+    $
+  ]
+)
+
+L'ensemble engendré à l'aide d'un schéma de compréhension par l'ensemble E et la propriété P est unique et se note $ { x in E slash P(x) }$.
+Cela permet de définir l'intersection de la manière suivante: 
+$ A inter B = { x in A slash x in B} $
+
+#proof("l'intersection commute",
+  $A inter B = B inter A$,
+  [
+    $
+      x in A inter B &<=> x in { y in A slash y in B}\
+      &<=> x in A and x in B "(défintion du schéma de compréhension)"\
+      &<=> x in B and x in A "(commutativité du et en logique classique)"\
+      &<=> x in { y in B slash y in A}\
+      &<=> x in B inter A
+    $
+  ]
+)
+
 //todo  : produit cartésien 
 //todo  : application
 
@@ -130,17 +216,17 @@ Un ordre sur E est un bon ordre lorque : \
 
 = Construction de $bb(N)$
 #let Pinf = $P_(infinity)$
-On définit $Pinf$ par :
+On définit la propriété $Pinf$ par :
 $ forall I, Pinf(I) <=>  emptyset in I and forall n, n in I => S(n) in I $\
 
 #proof([Existence de $NN$],
   $exists! N, (forall I, Pinf(I) => N subset I) and Pinf(N)$,
   [
-  Posons I tel que $Pinf(I)$, il nous est donné par l'axiome de l'infini.
+Posons I tel que $Pinf(I)$, il nous est donné par l'axiome de l'infini.
   Posons $N  = {n in I | forall J, Pinf(J) => n in J}$. Par construction, $forall J, Pinf(J) => N subset J$.
-  Soit N, M vérifiants :\
-  $ (forall I, Pinf(I) => N subset I) and Pinf(N) $\
-  $ (forall I, Pinf(I) => M subset I) and Pinf(M) $\
+Soit N, M vérifiants :\
+$ (forall I, Pinf(I) => N subset I) and Pinf(N) $\
+$ (forall I, Pinf(I) => M subset I) and Pinf(M) $\
   On a alors : $N subset M and M subset N$, d'où $M = N$, d'où l'unicité.
   ]
   
@@ -152,7 +238,7 @@ Cet objet est noté $bb(N)$
     Soit $P$ une propriété. $P(emptyset)  and (forall n in bb(N), P(n) => P(S(n))) => forall n in bb(N), P(n)$
   ], 
   [
-    Supposons $P(emptyset)  and (forall n in bb(N), P(n) => P(S(n)))$. Posons :
+Supposons $P(emptyset)  and (forall n in bb(N), P(n) => P(S(n)))$. Posons :
     $ H = {n in bb(N) | P(n)} $ $P(emptyset)$ et $emptyset in N$ assurent que $emptyset$ in H. Soit $n in H$. $P(n)$ et $n in bb(N)$. Ainsi, on a $P(S(n))$ et $S(n) in bb(N)$ d'où $S(n) in H$.\
     On  a ainsi montré que $Pinf(H)$. Par définitions : $NN subset H and H subset NN$. Ainsi, $H = NN$ d'où la propriété.
   ]
