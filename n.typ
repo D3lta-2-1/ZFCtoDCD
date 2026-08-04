@@ -44,6 +44,8 @@ Rour pouvoir nommer les objets crées à l'aide de ces axiomes, il est nécessai
 
 On note $emptyset$ l'ensemble vide.
 
+//todo : l'ensemble vide est inclus dans tout autre ensemble.
+
 #proof("Unicité de la paire",
   $forall a, forall b, exists! E, forall x, x in E <=> x = a or x = b$,
   [
@@ -88,16 +90,54 @@ Cet objet est noté $A union B$
 On définit alors le successeur de n par l'operation suivante: $S(n) = n union {n}$
 //todo  : Unicité pour schéma d'axiome de compréhension et notation 
 //todo  : produit cartésien 
+//todo  : application
+
+= Relations
+Soit E. Une relation sur E est une application de $E times E$ dans ${0, 1}$ où $0 = emptyset$ et $1 = {emptyset}$. 
+Soit $R$ une relation. On note : $forall a in E, forall b in E,  a R b <=>  R((a,b)) = 1  $.
+Définissons plusieurs termes. Soit R une relation sur E. R est :\
+  - Réflexive lorsque : $forall a in E, a R a $
+  - Transitive lorsque : $forall a in E, forall b in E, forall c in E, (a R b and b R c) => a R c$
+  - Symétrique lorsque : $forall a in E, forall b in E, a R b => b R a$
+  - Antisymétrique lorsque : $forall a in E, forall b in E, (a R b and b R a) => a = b $\
+
+Une relation d'ordre est une relation réflexive, transitive et antisymétrique.\
+Une relation d'équivalence est une relation réflexive, symétrique et transitive.\
+Une relation d'ordre $<=$ est dite totale sur un ensemble E lorsque :\
+  $ forall a in E, forall b in E, a <= b or b <= a $ 
+Un ordre sur E est un bon ordre lorque : \
+  $ forall F, F subset E => exists m in F, forall x in F, m <= x $
+  La relation R sur E définie par : $forall a in E, forall b in E, a R b <=> a subset b$ est notée $subset$.\
+  De même la relation R définie par : $forall a in E, forall b in E, a R b <=> a = b$ est notée $=$.\
+
+#proof(
+  [L'inclusion est une relation d'ordre.],
+  [], 
+  [
+    _Réflexive_ :
+    Soit $A in E$. Soit $x in A$. $x in A$. Ainsi, $A subset A$ \  
+    _Transitive_ :
+    Soit $A, B$ et $C$ dans $E$. Supposons $A subset B$ et $B subset C$. Soit $x in A$. $x in B$. $x in C$.
+     Ainsi,$A subset C$.
+    _Antisymétrique_  :
+    Soit $A, B in E$. Supposons $A subset B and B subset A$. Par axiome d'extensionnalité, $A = B$.
+  ]
+
+
+
+)
+//todo : bon ordre implique ordre total.
+
 = Construction de $bb(N)$
 #let Pinf = $P_(infinity)$
 On définit $Pinf$ par :
 $ forall I, Pinf(I) <=>  emptyset in I and forall n, n in I => S(n) in I $\
 
-#proof("Existence de $NN$",
+#proof([Existence de $NN$],
   $exists! N, (forall I, Pinf(I) => N subset I) and Pinf(N)$,
   [
   Posons I tel que $Pinf(I)$, il nous est donné par l'axiome de l'infini.
-  Posons $N  = {n in I | forall J, Pinf(J) => n in J}$. Par construction, $forall J, Pinf(J) => N subset J$
+  Posons $N  = {n in I | forall J, Pinf(J) => n in J}$. Par construction, $forall J, Pinf(J) => N subset J$.
   Soit N, M vérifiants :\
   $ (forall I, Pinf(I) => N subset I) and Pinf(N) $\
   $ (forall I, Pinf(I) => M subset I) and Pinf(M) $\
@@ -107,11 +147,9 @@ $ forall I, Pinf(I) <=>  emptyset in I and forall n, n in I => S(n) in I $\
 )
 Cet objet est noté $bb(N)$
 
-
-
 #proof("Récurrence",
   [
-    Soit $P$ une propriété. $P(emptyset)  and (forall n in bb(N), P(n) => P(S(n)) => forall n in bb(N), P(n)$
+    Soit $P$ une propriété. $P(emptyset)  and (forall n in bb(N), P(n) => P(S(n))) => forall n in bb(N), P(n)$
   ], 
   [
     Supposons $P(emptyset)  and (forall n in bb(N), P(n) => P(S(n)))$. Posons :
@@ -120,4 +158,52 @@ Cet objet est noté $bb(N)$
   ]
   
 )
+#proof(
+    "L'appartenance implique l'inclusion pour les entiers naturels",
+    $forall a in NN, forall b in NN, a in b => a subset b$, [
+      //todo : récurrence sur b.
+    ]
+)
+ #proof(
+    "Réciproque partielle",
+    $forall a in NN, forall b in NN, a subset b => (a in b or a = b)$,
+    [
+        Soit $a in NN$.
+        On procède par récurrence sur $b$.\
+        Supposons $b = emptyset$ : $a subset b => a  = b => (a in b or a = b)$.\
+        Soit $b in NN$.\
+        Supposons que $(a subset b => (a in b or a = b))$.\
+        #h(1em) Supposons $a subset S(b)$. $a subset b union {b}$.\
+        #h(2em) Si $b in a$ : $b subset a$.\
+        #h(3em) On a alors $S(b) subset a$ :\
+        #h(4em) Soit $n in S(b)$. Si $n in b $ : $n in a$, sinon :  $n = b$, $n in a$ aussi.\
+        #h(3em) Ainsi $a = S(b)$\
+        #h(2em) Sinon : $a subset b$. Ainsi, $a in b or a = b$. Dans les deux cas $a in S(b)$\
+        #h(1em) Finalement, $a subset S(b) => (a in S(b) or a = S(b))$\
+        Par récurrence, la propriété est vraie pour tout $b in NN$.
+    ]
+ )
 
+ Notons $<=$, relation sur N définie par : $ forall a in NN, forall b in NN, a<=b <=> a subset b $.
+On a déjà montré que $<=$ était une relation d'ordre.
+#proof(
+  [Sur $NN$, $<=$ est une relation d'ordre totale.],
+  [$forall a in NN, forall b in NN, a <=b or b <= a$],
+  [
+    Soit $a in NN$.
+    On procède par récurrence sur $b$.\
+    Si $b = emptyset$ : $b <= a$.\
+    Soit $b in NN$. Supposons que $a<=b or b <= a$.\
+    #h(1em) Si $a <= b$ :\
+    #h(2em) $b subset b union {b} = S(b)$. On en déduit que $a <= S(b)$ par transitivité.\
+    #h(1em) Si $b <= a$ : \
+    #h(2em) $b in a or b = a$. \
+    #h(2em) Si $b in a$ :\
+    #h(3em) On a aussi : $b subset a$ donc $S(b) = b union {b} subset a$.\
+    #h(2em) Si $b = a$ :\
+    #h(3em) $a <= S(b)$\
+    #h(1em) Dans tous les cas : $a <= S(b) or S(b) <= a$.\
+  ]
+)
+
+//todo : construction des suites définies par récurrence.
