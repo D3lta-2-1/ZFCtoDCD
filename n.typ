@@ -175,8 +175,8 @@ $ A inter B = { x in A slash x in B} $
   ]
 )
 
-//todo  : produit cartésien 
-//todo  : application
+//todo*  : produit cartésien 
+//todo**  : application
 
 = Relations
 Soit E. Une relation sur E est une application de $E times E$ dans ${0, 1}$ où $0 = emptyset$ et $1 = {emptyset}$. 
@@ -212,7 +212,7 @@ Un ordre sur E est un bon ordre lorque : \
 
 
 )
-//todo : bon ordre implique ordre total.
+//todo* : bon ordre implique ordre total.
 
 = Construction de $bb(N)$
 #let Pinf = $P_(infinity)$
@@ -247,7 +247,7 @@ Supposons $P(emptyset)  and (forall n in bb(N), P(n) => P(S(n)))$. Posons :
 #proof(
     "L'appartenance implique l'inclusion pour les entiers naturels",
     $forall a in NN, forall b in NN, a in b => a subset b$, [
-      //todo : récurrence sur b.
+      //todo* : récurrence sur b.
     ]
 )
 #proof(
@@ -290,16 +290,29 @@ On a déjà montré que $<=$ était une relation d'ordre.
     #h(1em) Dans tous les cas : $a <= S(b) or S(b) <= a$.\
   ]
 )
+#proof("Lemme pour la propriété suivante",
+    $forall n in NN, n  in.not n$, [
+      On procède par récurrence. \
+      $ emptyset in.not emptyset $\
+      Soit $n in NN$. Supposons que $n in.not n$.\
+      #h(1em) Supposons que $S(n) in S(n)$\
+      #h(2em) $S(n) in n union {n}$\
+      #h(2em) Si $S(n) =  n$ : $n in n$, c'est absurde. \
+      #h(2em) Si $S(n) in n$ alors $ S(n) subset n$ d'où $n in n$, c'est absurde aussi.\
+      #h(1em) Par l'absurde, $S(n) in.not S(n)$
+    ]
 
+ , )
 #proof("Caractérisation de <",
  $forall a in NN, forall b in NN, a < b <=> a + 1 <= b$, 
  [
-  //todo : preuve 
+  //todo* : preuve (utiliser prop précédente pour avoir n != S(n))
 
  ])
 
 
-//todo : construction des suites définies par récurrence.
+//todo*** : construction des suites définies par récurrence.
+//todo* : définition loi de composition interne ??
 = Addition \
 
 Soit $a in NN$. Posons :
@@ -324,7 +337,7 @@ On notera : $+(a,b) = a + b$.
     $forall a in NN, forall b in NN, forall c in NN, (a + b) + c = a + (b + c)$
     $forall a in NN, forall b in NN, a + b = b + a$
   ], [
-    Récurrences //todo
+    Récurrences //todo*** : voir multiplication si besoin.
   ]
 )
 On notera, pour a, b et c des entiers naturels $a + b + c = ( a + b ) + c = a + ( b+ c )$.\
@@ -349,14 +362,14 @@ Où $1 = S(0)$. On utilisera cette notation pour les récurrences notamment.
  #proof("Caractérisation de la relation d'ordre", 
   $forall a in NN, forall b in NN, a <= b <=> exists c, a + c = b$,
   [
-    //todo : par l'absurde : récurrence sur c pour a + c < b
+    //todo** : par l'absurde : récurrence sur c pour a + c < b
   ]
  )
 
 
 
 #proof("Simplification de l'addition", 
-  $forall a in NN, forall b in NN, forall c in NN, a + c = b +c => a = b$,
+  $forall a in NN, forall b in NN, forall c in NN, a + c = b + c => a = b$,
   [
     Soit $a, b, c in NN$. On raisonne par contraposée.\
     Supposons $a != b$. Ainsi, $a < b$ ou $b < a$.
@@ -370,6 +383,80 @@ Où $1 = S(0)$. On utilisera cette notation pour les récurrences notamment.
 $forall F, (F subset N and F != emptyset) => exists m in F, forall x in F, m <= x$
 ,
 [
-  //todo : récurrence.
+  //todo** : récurrence.
 ]
+)
+
+= Multiplication \
+
+La méthode employée est similaire à celle pour l'addition.
+
+// todo* : défnir mult en adaptant addition
+
+#proof("propriétés fondamentales de la multiplication",
+  $(forall a in NN, a times 0 = 0) and (forall a in NN, forall b in NN, a times (b+1) = (a times b) + a)$
+  ,[
+    //todo* : preuve, devrait découler de la définition.
+  ]
+)
+#proof("0 est absorbant pour la multiplication",
+  $forall n in NN, 0 times n = 0$,
+  [
+      On procède par récurrence sur $n$.\
+      $0 times 0 = 0$\
+      Soit $n in NN$ supposons que $0 times n = 0$ : 
+      $ 0 times (n + 1) = (0 times n) + 0 =  0 + 0 = 0 $
+  ]
+)
+#proof(
+  "Commutativité de la multiplication",[
+    $forall a in NN, forall b in NN, a times b = b times a$
+  ], [
+    On procède par récurrence sur $a$.\
+    $forall b in NN b times 0 = 0 = 0 times b$.\
+    Soit $a in NN$. Supposons que $forall b in NN, a times b = b times a$.\
+    #h(1em) On procède par récurrence sur b pour montrer que $forall b in NN, (a+1)times b = b times (a+1)$.\
+    #h(1em) $a times 0 = 0 = 0 times a$ \
+    #h(1em) Soit $b in NN$. Supposons que $(a + 1) times b = b times (a + 1)$.
+    $
+      (a + 1) times (b + 1) 
+        &= ((a  + 1) times b) + a + 1\
+        &= (b times (a +1)) + a + 1\
+        &= (b times a) + a + b +1\
+        &= (a times b) + a + b +1\
+        &= (a times (b +1)) + b + 1\
+        &= ((b +1) times a) + (b + 1)\
+        &= ((b + 1) times (a +1))
+    $
+    Ceci conclut la récurrence sur $b$ puis celle sur $a$.\
+  ]
+)
+
+#proof(
+  "Distributivité", 
+  $forall a in NN, forall b in NN,forall n in NN,  n times (a + b) = n times a  + n times b $, 
+  [
+      Soit $a in NN, b in NN$. On procède par récurrence sur $n$. 
+      //todo* : rédiger la récurrence
+  ]
+)
+
+
+#proof(
+  "Associativité de la multiplication",[
+    $forall a in NN, forall b in NN, forall c in NN, (a times b) times c = a times (b times c)$
+  ], 
+  [
+    Soit $a in NN, b in NN$. On procède par récurrence sur $c$.\
+    $(a times b) times 0 = 0 = a times 0 = a times (b times 0)$\
+    Soit $c in NN$. Supposons que $(a times b) times c = a times (b times c)$\
+    $
+      (a times b) times (c + 1)
+          &=(a times b) times c + a times b\
+          &= a times (b times c) + a times b\
+          &= a times (b times c + b)\
+          &= a times (b times (c + 1))
+    $
+  ]
+  
 )
