@@ -176,7 +176,8 @@ $ A inter B = { x in A slash x in B} $
 )
 
 //todo*  : produit cartésien 
-//todo**  : application
+//todo**  : application // ligne 465 : injective, surjective : peut être ramené ici
+//todo* : image directe, image réciproque.
 
 = Relations
 Soit E. Une relation sur E est une application de $E times E$ dans ${0, 1}$ où $0 = emptyset$ et $1 = {emptyset}$. 
@@ -271,7 +272,7 @@ Supposons $P(emptyset)  and (forall n in bb(N), P(n) => P(S(n)))$. Posons :
  )
 
  Notons $<=$, relation sur N définie par : $ forall a in NN, forall b in NN, a<=b <=> a subset b $
-On a déjà montré que $<=$ était une relation d'ordre.
+On a déjà montré que $<=$ était une relation d'ordre. \
 #proof([Sur $NN$, $<=$ est une relation d'ordre totale.],
   [$forall a in NN, forall b in NN, a <=b or b <= a$],
   [
@@ -460,3 +461,180 @@ La méthode employée est similaire à celle pour l'addition.
   ]
   
 )
+
+= Cardinaux
+
+Soient $E, F$ et. $f in F^E$  est dite :
+- Injective lorsque : $forall x in E, forall x' in E, f(x) = f(x') => x = x'$.
+- Surjective lorsque : $forall y in F, exists x in E, f(x) = y$
+- Bijective lorsque $f$ est injective et surjective.
+
+On notera :
+- $E -> F$ lorqu'il existe une injection de E dans F.
+- $E <-> F$ lorqu'il existe une bijection de E dans F.
+
+#proof(
+  [Transitivité de $->$.],$forall A, forall B, forall C, A->B and B->C => A -> C$ ,
+   [
+    Soient $A, B, C$. Supposons que $A->B$ et $B->C$. On dispose de $f in B^A$ et de $g in C^B$ injectives.
+    Posons $h in C^A$ définie par  $h : x |-> g(f(x))$.\
+    Soient $x in A$ et $x' in A$. Supposons que $h(x) = h(x')$. $g(f(x)) = g(f(x'))$ donc
+    $f(x) = f(x')$ par injectivité de $g$ puis $x = x'$ par injectivité de $f$. 
+    Ainsi, $h$ est injective donc $A->C$.
+   ]
+)
+#proof(
+  [Transitivité de $<->$.],$forall A, forall B, forall C, A<->B and B<->C => A <-> C$ ,
+   [
+    Soient $A, B, C$. Supposons que $A<->B$ et $B<->C$. On dispose de $f in B^A$ et de $g in C^B$ bijectives.
+    Posons $h in C^A$ définie par  $h : x |-> g(f(x))$.\
+    Injectivité de $h$ : \
+    #h(1em) Soient $x in A$ et $x' in A$. Supposons que $h(x) = h(x')$. $g(f(x)) = g(f(x'))$ donc
+    $f(x) = f(x')$ par injectivité de $g$ puis $x = x'$ par injectivité de $f$. 
+    Surjectivité de $h$ : \
+    #h(1em) Soit $z in C$. On dispose de $y in B$ tel que $g(y) = z$ par surjectivité de $g$.
+    On dispose de $x in A$ tel que $y = f(x)$ par surjectivité de $f$. $h(x)=g(f(x)) = g(y) =z$
+   ]
+)
+#proof(
+  "Propriété" //pas d'idée de nom
+  ,$forall A, forall B,  A<->B  => A -> B$ ,
+   [
+    Soient $A, B$. Supposons que $A <-> B$. On dispose alors de $f in B^A$ bijective. En particulier
+    $f$ est injective donc $A->B$.
+   ]
+)
+#proof(
+  "Caractérisation de la bijectivité.",
+  [Soit $E, F$ et $f in F^E$. $f$ est bijective si et seulement si : 
+    $ exists g in E^F, (forall x in E, g(f(x)) = x) and (forall y in F, f(g(y)) = y) $
+    Dans ce cas, $g$ est unique.
+  ],
+  [
+      Supposons que f est bijective. \
+      Soit $y in F$. Montrons que : $exists ! x in E, f(x) = y$. \
+      #h(1em) L'existence est donnée par la surjectivité de $f$. \
+      #h(1em) L'unicité est donnée par l'injectivité. \
+      On pose alors $g(y)$ cet unique élément $x$, ceci définit $g in E^F$.\
+      Soit $y in F$. $f(g(y)) =  y$ par construction de $g$.\
+      Soit $x in E$. $g(f(x))$ est tel que $f(g(f(x))) = f(x)$ puis, par injectivité de f : $g(f(x)) = x$.\
+      Réciproquement, supposons l'existence de $g$ tel que : \
+      $ (forall x in E, g(f(x)) = x) and (forall y in F, f(g(y)) = y) $
+      Injectivité : \
+      #h(1em) Soient $x in E, x' in E$. Supposons que $f(x) = f(x')$. Alors : $x = g(f(x)) = g(f(x')) = x'$ \
+      Surjectivité : \
+      #h(1em) Soit $y in F$. $f(g(y)) = y$. \ 
+      Unicité de $g$ : \
+      #h(1em) Supposons qu'il existe $g'$ vérifiant la même propriété. Soit $y in F$. $f(g'(y)) = y = f(g(y))$. \
+      #h(1em) Par injectivité de $f$ : $g'(y) = g(y)$
+  ]
+)
+On notera $g = f^(-1)$. Soient A, B; On note$A -> B$ ou $B <- A$ lorsqu'il existe une 
+injection de A dans B et $A<->B$ lorsqu'il existe une bijection de A dans B. La propriété
+précédente donne que $forall A, forall B, A<->B <=> B<->A$ \ // todo* : pas nécessaire 
+#proof("Théorème de Cantor Bernstein",$forall A, forall B, A->B and B->A => A<->B$,
+[
+  Soient E, F supposons que : $F subset E and E -> F$. Montrons que $F <-> E$. Pour cela fixons $f in F^E$
+  injective. Posons ensuite : 
+  $ A_0 = E backslash F $
+  $ forall n in NN, A_(n+1) = f(A_n) $
+  C'est une suite définie par récurrence sur $cal(P)(E)$. On pose alors 
+  $U = {X in cal(P)(E) : exists n in NN, X = A_n}$ que l'on notera plus simplement $U = {A_n | n in NN}$.
+  On pose finalement : $ A = union.big_(X in U) X = union.big_(n in NN) A_n $ Finalement, définissons $g in F^E$ par :
+  $ g : x |-> cases( f(x) "si" x in A, x "sinon") $
+  Montrons que g est bijective : \
+  Injectivité : \
+  #h(1em) Soient $x, x'$ dans $E$. Supposons que $g(x) = g(x')$.\
+  #h(2em) Si $x in A and x' in.not A$ : \
+    $ f(x) = g(x) = g(x') = x' $
+  #h(3em) On dispose de $n in NN$ tel que $x in A_n$ Ainsi, $x' = f(x) in A_(n+1)$ par contruction de $(A_n)$.
+  On alors $x' in A$ ce qui est absurde. \
+  #h(2em) Si $x in A and x' in A$ :
+    $ f(x) = g(x) = g(x') = f(x') $
+    $ x = x' "par injectivité" $
+  #h(2em) Si $x in.not A and x' in.not A$ : 
+    $ x = g(x) = g(x') = x' $
+  #h(2em) Si $x in A and x' in.not A$ : \
+  #h(3em) Symétrique du premier cas \
+  Surjectivité : \
+  #h(1em) Soit $y in F$.\
+  #h(1em) Si $y in A$ : \
+  #h(2em)  On dispose de $n in NN$ tel que $y in A_n$. \
+  #h(2em) Si n < 1, $n in 1$ donc $n = 0$ donc $y in.not F$ : absurde \
+  #h(2em) Si $n >= 1$ alors $n = k + 1$ avec $k in NN$ donc $A_n = f(A_k)$ ainsi $y in f(A_k)$. \
+  #h(2em) On dispose alors de $x in A_k$ tel que $f(x) = y$.  $x in A$ par construction de $A$. Ainsi, $g(x)=f(x)=y $. \
+  #h(1em) Si $y in.not A$ : g(y) = y. \
+  On a ainsi montré que $E <-> F$.\
+
+  Soient $A, B$. Supposons que $A->B$ et $B->A$. On dispose de $f in B^A$ injective. Posons $A' = f(A)$.
+  $f$ est bijective de $A$ dans $A'$.// Il faudrait poser f' avec un ensemble d'arrivé restreint 
+  Ainsi, $A <-> A'$. Mais $B->A$ et $A->A'$ car $A<->A'$, ainsi : $B->A'$.
+  Comme $A' subset B$, $A' <-> B$ par la propriété précédente. Finalement, $A <-> B$ par transitivité. 
+])
+Soient $k in NN$ et $n in NN$. On note $[|k, n|] = {a in NN, k <= a <= n}$ \
+#proof("Lemme", $forall A, forall x in A, forall y in A, A\\{x}<-> A\\{y}$,
+ [
+  Soit A. Soient $x in A$, $y in A$. Posons :
+  $ f : A\\{x} & -> A\\{y} \ a &|-> cases(x "si" a = y, a "sinon")  $
+  Injectivité : \
+    #h(1em) Soient $a in A\\{x}$ et $a' in A\\{x}$. Supposons que $f(a) = f(a')$. \
+    #h(2em) Si $a = y and a' = y$ : $a = y =  a'$ \
+    #h(2em) Si $a != y and a' != y$ : $a = f(a) = f(a') = a'$ \
+    #h(2em) Si $a = y and a' != y$ : $x = f(a) = f(a') = a'$, c'est absurde. \
+    #h(2em) Si $a != y and a' = y$ : symétrique \
+  Surjectivité : \
+    #h(1em) Soit $b in A\\{y}$. \
+    #h(2em) Si $b = x$ : $y != x$ donc $y in A\\{x}$. $f(y) = x = b$ \
+    #h(2em) Si $b != x$ : $b in A\\{x}$. $f(b) = b$ 
+  ])
+#proof("Cas des entiers naturels",
+  $forall a in NN, forall b in NN, [|1, a|] <-> [|1, b|] <=> a = b$,
+  [
+    Montrons tout d'abord que : \
+    $ forall k in NN, k != 0 => forall n in NN, not ([|1, n|] <-> [|1, n + k|]) $ 
+    Soit $k in NN$. Supposons que $k != 0$.\
+    Initialisation : \
+    #h(1em) $k > 0$, donc $k >= 1$. \
+    #h(1em)  On en déduit que $1 in [|1, k|]$. \
+    #h(1em)  Supposons que [|1, k|] <-> [|1, 0|]. Ainsi, on dispose de f bijective de $[|1, k|]$ dans $[|1, 0|]$.\
+    $ f(1) in [|1, 0|] $
+    $ f(1) <= 0 and f(1) >= 1 $
+    $ 0 >= 1 $
+    $ 0 = 1$
+    #h(2em) C'est absurde donc  $not ([|1, 0|] <-> [|1, 0 + k|])$ \
+    Hérédité : \
+    #h(1em) Soit $n in NN$. Supposons que $not ([|1, n|] <-> [|1, n + k|])$. \
+    #h(2em) Supposons que $[|1, n + 1|] <-> [|1, n + 1 + k|]$. \
+    #h(3em) On dispose de $f : [|1, n + 1 |] ->[|1, n + 1 + k|]$ bijective. \
+    #h(3em) Posons $ f' : [|1, n|] & -> [|1, n + 1 + k|]\\{f(n+1)} \ a &|-> f(a) $
+    #h(3em)$f'$ est bien définie.\
+    #h(3em) Comme $f$ est injective, $f'$ l'est aussi. \
+    #h(3em) Montrons qu'elle est aussi surjective: \
+    #h(4em) Soit $y in [|1, n + 1 + k|]\\{f(n+1)}$. \
+    #h(4em) On dispose de $x in [|1, n+1|]$ tel que $f(x) =  y$.\
+    #h(4em) Si $x = n + 1$, $y = f(n+1)$ : c'est absurde.\
+    #h(4em) Sinon : $f'(x) = y$\
+    $ [|1, n|] &<-> [|1, n + 1 + k|]\\{f(n+1)} \
+               &<-> [|1, n + 1 + k|]\\{n+1+k} "lemme précédent"  \
+               &<-> [|1, n + k|] 
+        $
+    #h(3em) C'est absurde. \
+    #h(2em) Ainsi, $not ([|1, n + 1|] <-> [|1, n + 1 + k|])$
+    \ \
+    Soient $a in NN$ et $b in NN$. Supposons que $a != b$. Ainsi, $a < b$ ou $b < a$. Quitte
+    à les renommer, on suppose que $a < b$. On dipose de $ k in NN$ tel que $a + k = b$ et $k !=0$.
+    Ainsi, $not ([|1, a|] <-> [|1, a + k|] = [|1, b|])$. \
+    La réciproque est évidente.
+  ])
+#proof("Définition du cardinal", 
+$forall E, exists n in NN, E <-> [|1, n|] => exists! n in NN, E <-> [|1, n|]$,
+[
+  Soit $E$. Supposons que $exists n in NN, E <-> [|1, n|]$. Montrons l'unicité. \
+  Soient $n in NN$ et $k in NN$. Supposons que $E <-> [|1, n|]$ et $E<->[|1, k|]$. \ 
+  On a alors $[|1, n|] <-> [|1, k|]$ d'où $n = k$.
+] )
+Soit $E$. Dans le cas où $exists n in NN, E <-> [|1, n|]$, ce $n$ est unique et on le note  $\#E$.
+$E$ est alors dit fini. Dans le cas contraire, il est infini. \ 
+#let Pfin = $P_(< infinity)$
+On note $Pfin$ la propriété d'être fini.\
+
