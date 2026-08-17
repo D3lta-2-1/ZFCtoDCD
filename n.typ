@@ -504,6 +504,16 @@ On notera :
     $f$ est injective donc $A->B$.
    ]
 )
+
+#proof(
+  "Propriété" //pas d'idée de nom
+  ,$forall A, forall B,  A subset B  => A -> B$ ,
+   [
+    Soient $A, B$. Supposons que $A subset B$. Posons alors $f in B^A$ définie par :
+    $ f : x |-> x $
+    $f$ est injective donc $A -> B$
+   ]
+)
 #proof(
   "Caractérisation de la bijectivité.",
   [Soit $E, F$ et $f in F^E$. $f$ est bijective si et seulement si : 
@@ -638,3 +648,87 @@ $E$ est alors dit fini. Dans le cas contraire, il est infini. \
 #let Pfin = $P_(< infinity)$
 On note $Pfin$ la propriété d'être fini.\
 
+#proof(
+  "Caractérisation des ensembles infinis",
+  $forall E, not Pfin(E) <=> forall n in NN, [|1, n|] -> E$ ,
+  [
+    Soit $E$. Supposons que $forall n in NN, [|1, n|] -> E$. \
+    #h(1em) Supposons que $E$ est fini. \
+    #h(2em) On dispose de $k in NN$ tel que $E <-> [|1, k|]$.\
+    #h(2em) Ainsi, [|1, k +1|] -> E -> [|1, k|] -> [|1, k+1|]\
+    #h(2em) C'est absurde car $k != k +1$. \
+    #h(1em) Ainsi, $E$ est infini
+
+    Réciproquement, soit $E$. Supposons que $E$ est infini. \
+    On procède par récurrence.\
+    #h(1em) $emptyset subset E$ donc $emptyset -> E$ donc $[|1, 0|] -> E$. \ 
+    #h(1em) Soit $n in NN$. Supposons que $[|1, n|] -> E$. \
+    #h(2em) On dispose de $f : [|1, n|] -> E$, injective. \
+    #h(2em) $E$ est infini donc $f$ n'est pas surjective. On dipose ainsi de $y in E$ tel que :
+    $ forall k in [|1, n|], f(k) != y $
+    #h(2em)Posons alors :
+    $ g : [|1, n+1|] &-> E\ k &|-> cases(f(k) "si" k <=n, y "sinon") $
+    #h(2em) Montrons que $g$ est injective. \
+    #h(2em) Soient $k, k'$ dans $[|1, n+1|]$. Supposons que $g(k) = g(k')$.\
+    #h(3em) Si $k <= n$ and $k' = n +1$ : $f(k) != y = f(k')$ : impossible\
+    #h(3em) Si $k = n +1$ and $k' <= n$ : symétrique du précédent\
+    #h(3em) Si $k <= n$ and $k' <= n$ : $k = g(k) = g(k') = k'$\
+    #h(3em) Si $k = n +1$ and $k' = n+1$ : $k = n+1 = k'$\
+    #h(2em) Ainsi, $[|1, n + 1|] -> E$
+  ]
+)
+#proof("Outil pour montrer qu'un ensemble est fini", //pas sûr du nom
+  $forall E, (exists n in NN, E -> [|1, n|]) => Pfin(E)$,
+  [
+      Soit E. Supposons qu'il existe $n in NN$ tel que $E -> [|1, n|]$.\
+      Supposons que E est infini. $[|1, n +1|] -> E -> [|1, n|] -> [|1, n+1|]$. \
+      Ainsi $E <-> [|1, n+1|]$, donc E est fini. C'est abusrde donc E est fini. 
+  ]
+)
+
+#proof("Croissance du cardinal", 
+  $forall A, forall B, (Pfin(B) and A ->B) => (Pfin(A) and \#A <= \#B)$,
+  [
+    Soient $A, B$. Supposons que $(Pfin(B) and A -> B)$. \
+    $B <-> [|1,\#B|]$. Ainsi,$ A -> B -> [|1, \#B|]$.\
+    $A$ est donc fini. De plus, supposons que $\#A > \#B$. Ainsi :
+    $ B -> [|1, \#B|] -> [|1, \#A|] -> A -> B $
+    #h(1em) On a alors $\#A = \#B$, c'est absurde.\
+     Ainsi, $\#A <=\#B$
+  ]
+)
+
+#proof(
+  "Lien avec l'addition", 
+  $forall A, forall B, Pfin(A) and Pfin(B) ^ (A inter B = emptyset) => Pfin(A union B) and \#A union B = \#A + \#B$
+  ,
+  [
+    Soient $A, B$ finis. Supposons que $(A inter B = emptyset)$. Notons $p = \#A$ et $q = \#B$. \
+    On dispose de $f : A -> [|1, p|]$ et $g : B -> [|1, q|]$ bijectives. Posons :
+    $ h : A union B &-> [|1, p + q|] \ x &|-> cases(f(x) "si" x in A, p + g(x) "sinon. ("x in B")") $
+    Injectivité de $h$ : \
+    #h(1em) Soient $x in A union B, x' in A union B$.\
+    #h(1em)  Supposons que $h(x) = h(x')$ \
+    #h(2em) Si $x in A and x' in.not A$ : 
+    $h(x') = p + g(x') >= p + 1 > p >= f(x) = h(x)$, c'est impossible \ 
+    #h(2em) Si $x in.not A and x' in A$ : symétrique du précédent. \
+    #h(2em) Si $x in A and x' in A$ : $f(x) = h(x) = h(x') = f(x')$ donc $x = x'$ par injectivité de $f$.\
+    #h(2em) Si $x in.not A and x' in.not A$ : $g(x) = h(x) = h(x') = g(x')$ donc $x = x'$ par injectivité de $g$.\
+
+    Surjectivité de $h$ :
+    Soit $y in [|1, p + q|]$.
+    Si $y in [|1, p|]$ : $g(f^(-1)(y)) = f(f^(-1)(y)) = y$
+    Sinon : \
+    #h(1em) $y > p$. On dispose de $k in NN, k >=1$ tel que $p + k = y$. \
+    #h(1em) De plus, $p + k < p + q + 1$ donc $k < q + 1$ donc $k <= q$. \
+    #h(1em) Par surjectivité de $g$, on dispose de $x in B$ tel que $g(x) = k$.\
+    #h(1em) $x in B$ donc $x in.not A$ donc $h(x) = p + k = y$
+
+    Ainsi, $A union B <-> [|1, p + q|]$.
+  ]
+)
+#proof("Lien avec la multiplication", 
+  $forall A, forall B, Pfin(A) and Pfin(B) => Pfin(A times B) and \#A times B = \#A times \#B$
+  ,[
+      //todo*** Récurrence sur lecardinal de B en utilisant l'addition. 
+  ])
