@@ -655,7 +655,7 @@ On note $Pfin$ la propriété d'être fini.\
     Soit $E$. Supposons que $forall n in NN, [|1, n|] -> E$. \
     #h(1em) Supposons que $E$ est fini. \
     #h(2em) On dispose de $k in NN$ tel que $E <-> [|1, k|]$.\
-    #h(2em) Ainsi, [|1, k +1|] -> E -> [|1, k|] -> [|1, k+1|]\
+    #h(2em) Ainsi, $[|1, k +1|] -> E -> [|1, k|] -> [|1, k+1|]$\
     #h(2em) C'est absurde car $k != k +1$. \
     #h(1em) Ainsi, $E$ est infini
 
@@ -700,7 +700,7 @@ On note $Pfin$ la propriété d'être fini.\
 
 #proof(
   "Lien avec l'addition", 
-  $forall A, forall B, Pfin(A) and Pfin(B) ^ (A inter B = emptyset) => Pfin(A union B) and \#A union B = \#A + \#B$
+  $forall A, forall B, Pfin(A) and Pfin(B) and (A inter B = emptyset) => Pfin(A union B) and \#A union B = \#A + \#B$
   ,
   [
     Soient $A, B$ finis. Supposons que $(A inter B = emptyset)$. Notons $p = \#A$ et $q = \#B$. \
