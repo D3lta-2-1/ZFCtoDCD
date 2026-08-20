@@ -342,7 +342,7 @@ qui définit la fonction dans la somme.
 
 Lorsque $+$ est aussi commutative : 
 #proof( "Somme de sommes",
-  $forall f in E^NN, forall g in E^NN,forall n in NN,  sum_(k=0)^n f(k) + sum_(k=0)^n g(k) = sum_k=0^n (f(k) + g(k))$,
+  $forall f in E^NN, forall g in E^NN,forall n in NN,  sum_(k=0)^n f(k) + sum_(k=0)^n g(k) = sum_(k=0)^n (f(k) + g(k))$,
   [
     On procède par récurrence sur $n$.
     //todo* : rédiger la récurrence.
@@ -354,17 +354,37 @@ Notons :
 $ sum_(k=a)^b f(k) = sum_(k=0)^c f(a+k) $
 Avec $c$, unique tel que $a + c = b$
 
-#proof(
-  "Sépararation de sommes",
-  $forall f in E^NN, forall a in NN, forall b in NN, a < b => sum_(k=a)^b f(k) = f(a) + sum_(k=a+1)^b f(k) $
-  ,
+
+#proof("Chasles", 
+  $forall a in NN, forall b in NN, forall c in NN, a <= b < c => sum_(k=a)^b f(k) + sum_(k=b+1)^c f(k) =
+  sum_(k=a)^c f(k)$, 
   [
-    //todo** : récurrnce sur b
+    //todo** : récurrence sur c
   ]
 )
-
 Dans le cas où la loi est notée $*$ ou $times$, on utilisera plutôt $product$ que $sum$.
 
+= Groupes 
+Le couple $(G, *)$ est un groupe lorsque :
+  - $*$ est une lci associative sur $G$
+  - $G$ admet un neutre noté $e$ : $forall a in G, a*e = e*a = a$
+#proof("Unicité du neutre",
+    $forall e in G, forall e' in G, (forall x in G, e*x = e'*x = x*e = x*e' = x) => e  =e'$,
+    [
+      Soient $e, e'$ éléments de $G$. Supposons qu'ils soient neutres. $e = e*e' = e'$.
+    ]
+,)
+On note $e_G$ l'unique neutre d'un groupe $G$ ou $e$ losqu'il n'y a pas de confusion.
+  - Tout élément a un inverse : $forall a in G, exists b in G, a*b = b*a  = e$
+  #proof("Unicité de l'inverse", 
+    $forall a in G, forall b in G, forall b' in G, (a*b = n*a = a*b' = b'*a = e) => b = b'$
+  ,[
+    Soient $a, b, b'$ éléments de G. Supposons que $a*b = n*a = a*b' = b'*a = e$. \
+    $ b = e*b = (b'*a)*b = b'*(a*b) = b'*e = b' $
+  ])
+Cet élément est noté $a^(-1)$
+
+// todo**: définir la composition puis, pour tout ensemble, les bijections forment un groupe pour la composition.
 = Addition \
 
 Soit $a in NN$. Posons :
@@ -783,3 +803,4 @@ On note $Pfin$ la propriété d'être fini.\
   ,[
       //todo*** Récurrence sur lecardinal de B en utilisant l'addition. 
 ])
+
