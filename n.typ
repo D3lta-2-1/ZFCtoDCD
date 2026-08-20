@@ -313,7 +313,58 @@ On a déjà montré que $<=$ était une relation d'ordre. \
 
 
 //todo*** : construction des suites définies par récurrence.
-//todo* : définition loi de composition interne ??
+= Loi de composition interne
+Soit E. Une loi de composition interne (lci) est un élément de $E^(E times E)$. \
+Soit $*$ une lci. On note : $forall a in E, forall b in E, (a * b) = *((a, b))$. 
+$*$ est dite : \
+ - Associative lorsque : $forall a in E, forall b in E, forall c in E, (a * b) * c = a * (b * c)$
+ - Commutative lorsque : $forall a in E, forall b in E, a*b = b*a$.
+
+Soit $E$ muni de $+$ une lci associative. \
+
+Soit $f in E^NN$.
+Posons $u$, suite définie par :
+$ cases(u_0 = f(0), forall n in NN \, u_(n+1) = u_n + f(n+1)) $
+On note alors, pour $n in NN$ :
+$ sum_(k=0)^N f(k) = u_n $ 
+$k$ est ici une variable muette. 
+
+
+#proof("Propriété fondamentale de la somme généralisée",
+  $forall f in E^NN, forall N in NN, sum_(k=0)^(N+1) f(k) =( sum_(k=0)^(N) f(k)) + f(N +1)$,
+  [
+    Soit $f in E^NN$. Soit $N in NN$ Soit $u$ associé à $f$. $u_(n+1) = u_n + f(n+1)$ d'où la propriété.
+  ]
+)
+
+Généralement, on ne définira pas explicitement la fonction, on mettra seulemnt une expression
+qui définit la fonction dans la somme.
+
+Lorsque $+$ est aussi commutative : 
+#proof( "Somme de sommes",
+  $forall f in E^NN, forall g in E^NN,forall n in NN,  sum_(k=0)^n f(k) + sum_(k=0)^n g(k) = sum_k=0^n (f(k) + g(k))$,
+  [
+    On procède par récurrence sur $n$.
+    //todo* : rédiger la récurrence.
+  ]
+)
+
+Soit $f in NN$ et $a, b$ des entiers naturels vérifiant $a <= b$
+Notons : 
+$ sum_(k=a)^b f(k) = sum_(k=0)^c f(a+k) $
+Avec $c$, unique tel que $a + c = b$
+
+#proof(
+  "Sépararation de sommes",
+  $forall f in E^NN, forall a in NN, forall b in NN, a < b => sum_(k=a)^b f(k) = f(a) + sum_(k=a+1)^b f(k) $
+  ,
+  [
+    //todo** : récurrnce sur b
+  ]
+)
+
+Dans le cas où la loi est notée $*$ ou $times$, on utilisera plutôt $product$ que $sum$.
+
 = Addition \
 
 Soit $a in NN$. Posons :
@@ -731,4 +782,4 @@ On note $Pfin$ la propriété d'être fini.\
   $forall A, forall B, Pfin(A) and Pfin(B) => Pfin(A times B) and \#A times B = \#A times \#B$
   ,[
       //todo*** Récurrence sur lecardinal de B en utilisant l'addition. 
-  ])
+])
